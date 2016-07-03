@@ -11,22 +11,18 @@ window.requestAnimFrame = function (callback) {
 };
 
 var points = [100, 150, 300, 120, 440, 600, 55, 57, 800, 440, 23, 500];
+var gravity = 10;
 
 function update() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    for (var i = 0; i < 9; i+=2){
-        var a = points[i];
-        var b = points[i + 1];
-        var c = points[i + 2];
-        var d = points[i + 3];
-        drawLine(a, b, c, d);
-    }
-    
-
-    
-    
+    drawLines(points);
     requestAnimFrame(update);
+}
+
+function Line(p1, p2){
+    this.p1 = p1;
+    this.p2 = p2;
 }
 
 function Point(){
@@ -34,8 +30,20 @@ function Point(){
     this.y;
     this.vx; //velocity
     this.vy; //velocity
-    this.rp; //right point
-    this.lp; // left point
+    this.fx; //x-force
+    this.fy; //y-force
+
+    this.attached = [];
+}
+
+function drawLines(points){
+    for (var i = 0; i < 9; i+=2){
+        var a = points[i];
+        var b = points[i + 1];
+        var c = points[i + 2];
+        var d = points[i + 3];
+        drawLine(a, b, c, d);
+    }
 }
 
 function drawLine(a, b, c, d){
