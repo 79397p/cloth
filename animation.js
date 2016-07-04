@@ -9,16 +9,31 @@ window.requestAnimFrame = function (callback) {
 };
 
 var gravity = 10;
+var cloth;
 
 function update() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    init();
     requestAnimFrame(update);
+    cloth.draw();
 }
 
 function Cloth(){
-    var points = [];
+    this.points = [];
+    this.lines = [];
+}
 
+Cloth.prototype.update = function(){
+    var arrayLength = this.points.length();
+    for (i = 0; i < arraylength; i++){
+	this.points.update();
+    }
+}
+
+Cloth.prototype.draw = function(){
+    var arrayLength = this.lines.length;
+    for (i = 0; i < arrayLength; i ++){
+	this.lines[i].draw();
+    }
 }
 
 function Line(p1, p2){
@@ -44,6 +59,19 @@ function Point(a, b){
     this.attached = [];
 }
 
+Point.prototype.update = function(){
+    this.x += this.vx*t + 0.5*this.fx*t*t;
+    this.y += this.vy*t + 0.5*this.fy*t*t;
+
+    var lengthAttached = this.attached.length;
+    for (i = 0; i < lengthAttached; i++){
+	var p1 = this.attached[i].p1;
+	var p2 = this.attached[i].p2;
+
+	
+    }
+}
+
 function drawLine(a, b, c, d){
     ctx.beginPath();
     ctx.moveTo(a,b);
@@ -52,11 +80,24 @@ function drawLine(a, b, c, d){
 }
 
 function init(){
-    var p1 = new Point(0, 0);
-    var p2 = new Point(400, 400);
-    var line = new Line(p1, p2);
-    line.draw();
+    cloth = new Cloth();
     
+    for (i = 0; i < 500; i+=10){
+	for (j = 0; j < 500; j+=10){
+	    var p1 = new Point(i, j);
+	    var p2 = new Point(i, j + 10);
+	    var p3 = new Point(i + 10, j);
+
+	    cloth.points.push(p1);
+	    cloth.points.push(p2);
+	    cloth.points.push(p3);
+
+	    cloth.lines.push(new Line(p1, p2));
+	    cloth.lines.push(new Line(p1, p3));
+	}
+    }
+    cloth.draw();
 }
 
 init();
+//update();
