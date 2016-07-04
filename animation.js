@@ -1,6 +1,4 @@
 
-
-
 var canvas  = document.getElementById('c');
 canvas.width = 900;
 canvas.height = 900;
@@ -10,14 +8,17 @@ window.requestAnimFrame = function (callback) {
         window.setTimeout(callback, 1000 / 60);
 };
 
-var points = [100, 150, 300, 120, 440, 600, 55, 57, 800, 440, 23, 500];
 var gravity = 10;
 
 function update() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    drawLines(points);
+    init();
     requestAnimFrame(update);
+}
+
+function Cloth(){
+    var points = [];
+
 }
 
 function Line(p1, p2){
@@ -25,25 +26,22 @@ function Line(p1, p2){
     this.p2 = p2;
 }
 
-function Point(){
-    this.x;
-    this.y;
+Line.prototype.draw = function(){
+    ctx.beginPath();
+    ctx.moveTo(this.p1.x, this.p1.y);
+    ctx.lineTo(this.p2.x, this.p2.y);
+    ctx.stroke();
+}
+
+function Point(a, b){
+    this.x = a;
+    this.y = b;
     this.vx; //velocity
     this.vy; //velocity
     this.fx; //x-force
     this.fy; //y-force
 
     this.attached = [];
-}
-
-function drawLines(points){
-    for (var i = 0; i < 9; i+=2){
-        var a = points[i];
-        var b = points[i + 1];
-        var c = points[i + 2];
-        var d = points[i + 3];
-        drawLine(a, b, c, d);
-    }
 }
 
 function drawLine(a, b, c, d){
@@ -53,4 +51,12 @@ function drawLine(a, b, c, d){
     ctx.stroke();
 }
 
-update();
+function init(){
+    var p1 = new Point(0, 0);
+    var p2 = new Point(400, 400);
+    var line = new Line(p1, p2);
+    line.draw();
+    
+}
+
+init();
