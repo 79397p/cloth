@@ -1,0 +1,9 @@
+var canvas = document.getElementById('c');
+canvas.width = 900;
+canvas.height = 900;
+var ctx = canvas.getContext('2d');
+
+window.requestAnimFrame = function (callback) {
+    window.setTimeout(callback, 1000/60);
+}
+
